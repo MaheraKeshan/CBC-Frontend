@@ -2,12 +2,14 @@ import UserData from "./userdata";
 
 
 export default function Header() {
+	console.log("Header component rendered")
 	return (
 		<div className= "bg-red-500">
-			<h1 className="font-bold text-2xl text-blue-700">Crystal Beauty CLear</h1>
-			<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil amet earum nostrum alias, quas provident numquam eos officia. Illo voluptatibus obcaecati quam! Animi aperiam iure veniam illo distinctio aspernatur accusamus.</p>
-			<UserData></UserData>
+			<Link to="/">Home</Link>
+			<Link to="/login">Login</Link>
+			<Link to="/signup">Sign Up</Link>
+			
 		</div>
-	);
+	)
 	// <header>
 }
