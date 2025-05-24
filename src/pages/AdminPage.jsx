@@ -1,28 +1,29 @@
-import { Link } from 'react-router-dom';
-import { Routes, Route } from 'react-router-dom';
+import { Link, Routes, Route } from 'react-router-dom';
+import AdminProductsPage from './admin/AdminProductsPage.jsx';
+import AddProductPage from './admin/addProductPage.jsx';
 
-export default function AdminPage() {	
 
-
+export default function AdminPage() {
 	return (
-		<div className='w-full h-screen bg-red-900'>
-			<div className='h-full w-[300px] bg-blue-800'>
-				<Link to="/admin/products">Products</Link>
-				<Link to="/admin/orders">Orders</Link>
-				<Link to="/admin/users">Users</Link>
-				<Link to="/admin/reviews">Reviews</Link>
-
+		<div className='w-full h-screen flex'>
+			{/* Sidebar */}
+			<div className='w-[300px] h-full flex flex col bg-gray-200'>	
+				<Link to="products">Products</Link>
+				<Link to="orders">Orders</Link>
+				<Link to="users">Users</Link>
+				<Link to="reviews">Reviews</Link>
 			</div>
-			<div className='h-full w-[calc(100% - 300px)] bg-amber-400'>
-				<Routes path="/*">
-					<Route path="/products" element={<h1>Products</h1>} />
+
+			{/* Main content */}
+			<div className='h-full w-[calc(100%-300px)]'>
+				<Routes path="/">	
+					<Route path="/products" element={<AdminProductsPage />} />
 					<Route path="/orders" element={<h1>Orders</h1>} />
 					<Route path="/users" element={<h1>Users</h1>} />
 					<Route path="/reviews" element={<h1>Reviews</h1>} />
-				
+					<Route path="/add-product" element={<AddProductPage/>} />
 				</Routes>
 			</div>
-			
 		</div>
-	)
+	);
 }
