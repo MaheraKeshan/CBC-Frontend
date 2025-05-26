@@ -1,16 +1,35 @@
-export default function ProductCard(props) {
-	console.log(props)
+export default function ProductCard({ product }) {
 	return (
-		<div className="card">
-			<img className="productImage" src={props.picture} />
-				<h1>{props.name}</h1>
-				<p>{props.description}</p>
-				<h2>{props.price}</h2>
-				<button className="addToCart">Add to Cart</button>
-				<button className="buyNow">Buy Now</button>
-			
-		</div>
-		
+		<div className="w-[300px] h-[400px] bg-white shadow-lg rounded-xl m-4 overflow-hidden flex flex-col">
+			{/* Product Image */}
+			<div className="h-[180px] bg-gray-100 flex items-center justify-center">
+				<img
+					src={product.image?.[0] || "/placeholder.png"}
+					alt={product.name}
+					className="h-full object-contain"
+				/>
+			</div>
 
+			{/* Product Details */}
+			<div className="p-4 flex flex-col flex-grow">
+				<h2 className="text-lg font-semibold text-gray-800 truncate">{product.name}</h2>
+				<p className="text-sm text-gray-600 line-clamp-2">{product.description}</p>
+
+				<div className="mt-auto">
+					{/* Price Section */}
+					<div className="flex items-center gap-2 mt-2">
+						<span className="text-green-600 font-bold text-lg">${product.price.toFixed(2)}</span>
+						{product.labelledPrice > product.price && (
+							<span className="line-through text-sm text-gray-400">${product.labelledPrice.toFixed(2)}</span>
+						)}
+					</div>
+
+					{/* Stock Status */}
+					<p className={`mt-1 text-sm ${product.stock > 0 ? "text-green-600" : "text-red-500"}`}>
+						{product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
+					</p>
+				</div>
+			</div>
+		</div>
 	);
-}	
+}
