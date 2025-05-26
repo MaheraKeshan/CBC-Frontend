@@ -1,6 +1,6 @@
 export default function ProductCard({ product }) {
 	return (
-		<div className="w-[300px] h-[400px] bg-white shadow-lg rounded-xl m-4 overflow-hidden flex flex-col">
+		<div className="w-[300px] h-[450px] bg-white shadow-lg rounded-xl m-4 overflow-hidden flex flex-col">
 			{/* Product Image */}
 			<div className="h-[180px] bg-gray-100 flex items-center justify-center">
 				<img
@@ -28,6 +28,16 @@ export default function ProductCard({ product }) {
 					<p className={`mt-1 text-sm ${product.stock > 0 ? "text-green-600" : "text-red-500"}`}>
 						{product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
 					</p>
+
+					{/* Buy Now Button */}
+					<button
+						disabled={product.stock === 0}
+						className={`mt-3 w-full py-2 text-white font-semibold rounded-lg transition-all ${
+							product.stock > 0 ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
+						}`}
+					>
+						Buy Now
+					</button>
 				</div>
 			</div>
 		</div>
