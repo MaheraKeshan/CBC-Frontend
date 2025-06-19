@@ -1,104 +1,128 @@
-import { useState } from 'react'
-import { sampleProducts } from '../../assets/sampleDAta'
-import axios from 'axios'
-import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { FaTrash, FaEdit} from 'react-icons/fa'	
-import { useNavigate } from 'react-router-dom'
-import toast from 'react-hot-toast'
-
-
+import { useEffect, useState } from "react";
+import { sampleProducts } from "../../assets/sampleData";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import toast from "react-hot-toast";;
 export default function AdminProductsPage() {
-	const [products, setProducts] = useState(sampleProducts)
-	const [isLoading, setIsLoading] = useState(true)// to show loading spinner
+	const [products, setProducts] = useState(sampleProducts);
+	const [isLoading, setIsLoading] = useState(true);
 
-	const navigate= useNavigate();
+	const navigate = useNavigate();
 
-	useEffect(
-		() => {
-			if(isLoading == true){
-			axios.get(import.meta.env.VITE_BACKEND_URL + "products").then((res) => {
-				console.log(res.data)
-				setProducts(res.data)
-				setIsLoading(false)	// stop loading spinner 
-			});
+	useEffect(() => {
+		if (isLoading) {
+			axios
+				.get(import.meta.env.VITE_BACKEND_URL + "products")
+				.then((res) => {
+					setProducts(res.data);
+					setIsLoading(false);
+				})
+				.catch(() => {
+					toast.error("Failed to load products");
+					setIsLoading(false);
+				});
 		}
-	}
-	,[isLoading] // to re-fetch products when isLoading changes
-);
+	}, [isLoading]);
 
-function deleteProduct(productId) {
+	function deleteProduct(productId) {
 		const token = localStorage.getItem("token");
-		if(token == null){
-			toast.error("Please login first to delete product")
-			return
+		if (!token) {
+			toast.error("Please login first");
+			return;
 		}
-		axios.delete(import.meta.env.VITE_BACKEND_URL + "products/" + productId, {
-			headers: {
-				"Authorization": "Bearer " + token
-			}
-		}).then(() => {
-			toast.success("Product deleted successfully")
-			setIsLoading(true) // re-fetch products after deletion
-		})
-	.catch((err) => {
-			toast.error(err.response.data.message)
-		})
-}
+		axios
+			.delete(import.meta.env.VITE_BACKEND_URL + "products/" + productId, {
+				headers: {
+					Authorization: "Bearer " + token,
+				},
+			})
+			.then(() => {
+				toast.success("Product deleted successfully");
+				setIsLoading(true);
+			})
+			.catch((e) => {
+				toast.error(e.response?.data?.message || "Failed to delete product");
+			});
+	}
+
 	return (
-		<div className = "w-full h-full max-h-full overflow-y-scroll relative" >
-			<Link to="/admin/add-product" className="absolute bottom-5 right-5 bg-green-500 text-white text-xl px-4 py-2 rounded cursor-pointer">
-			+
+		<div className="relative w-full h-full max-h-full overflow-y-auto p-4 font-[var(--font-main)]">
+			<Link
+				to="/admin/add-product"
+				className="fixed bottom-6 right-6 bg-[var(--color-accent)] hover:bg-[var(--color-secondary)] text-white font-bold py-3 px-5 rounded-full shadow-lg transition duration-300"
+			>
+				+ Add Product
 			</Link>
-			{isLoading ?
+
+			{isLoading ? (
 				<div className="w-full h-full flex justify-center items-center">
-					<div className="w-[70px] h-[70px] border-[5px] border-gray-300 border-t-blue-900 rounded-full animate-spin"></div>
-				</div> :
-			<table className="w-full text-center">
-				<thead>
-					<tr>
-						<th>Product 
-							ID</th>
-						<th>Name</th>
-						<th>Image</th>
-						
-						<th>Labelled Price</th>
-						<th>Price</th>
-						<th>Stock</th>
-						<th>Actions</th>
-						
-					</tr>
-				</thead>
-				<tbody> 
-					{products.map((item, index) => {
-						return(
-							<tr key={index}>
-								<td>{item.productId}</td>
-								<td>{item.name}</td>
-								<td><img src={item.image[0]} className="w-[50px] h-[50px]"></img></td>
-								<td>{item.labelledPrice}</td>
-								<td>{item.price}</td>
-								<td>{item.stock}</td>
-								<td><div className="flex justify-center items-center w-full"><FaTrash className="text-[20px] text-red-500 mx-2 cursor-pointer" onClick={()=>{
-									deleteProduct(item.productId)
-								}}/><FaEdit onClick={() => {
-									navigate("/admin/edit-product" , {
-										state : item
-										
-									})
-								} } 
-								className="text-[20px] text-blue-500 mx-2 cursor-pointer"/></div></td>
-								
-							
-						</tr>
-						)
-						
+					<div className="w-16 h-16 border-4 border-gray-300 border-t-[var(--color-accent)] rounded-full animate-spin"></div>
+				</div>
+			) : (
+				<div className="overflow-x-auto">
 					
-					})}
-				</tbody>
-			</table> 
-}
-			
+					<table className="w-full text-center border border-gray-200 shadow-md rounded-lg overflow-hidden">
+						<thead className="bg-[var(--color-accent)] text-white">
+							<tr>
+								<th className="py-3 px-2">Product ID</th>
+								<th className="py-3 px-2">Name</th>
+								<th className="py-3 px-2">Image</th>
+								<th className="py-3 px-2">Labelled Price</th>
+								<th className="py-3 px-2">Price</th>
+								<th className="py-3 px-2">Stock</th>
+								<th className="py-3 px-2">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{products.map((item, index) => (
+								<tr
+									
+									key={index}
+									className={`${
+										index % 2 === 0
+											? "bg-[var(--color-primary)]"
+											: "bg-gray-100"
+									} hover:bg-gray-200 transition`}
+								>
+									<td className="py-2 px-2">{item.productId}</td>
+									<td className="py-2 px-2">{item.name}</td>
+									<td className="py-2 px-2">
+										<img
+											src={item.image[0]}
+											alt={item.name}
+											className="w-12 h-12 object-cover rounded"
+										/>
+									</td>
+									<td className="py-2 px-2">{item.labelledPrice}</td>
+									<td className="py-2 px-2">{item.price}</td>
+									<td className="py-2 px-2">{item.stock}</td>
+									<td className="py-2 px-2">
+										<div className="flex justify-center space-x-3">
+											<button
+												onClick={() => deleteProduct(item.productId)}
+												className="text-red-500 hover:text-red-700 transition"
+											>
+												<FaTrash size={18} />
+											</button>
+											<button
+												onClick={() =>
+													navigate("/admin/edit-product", {
+														state: item,
+													})
+												}
+												className="text-blue-500 hover:text-blue-700 transition"
+											>
+												<FaEdit size={18} />
+											</button>
+										</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			)}
 		</div>
 	);
-}	
+}

@@ -24,6 +24,14 @@ export default function ProductPage(){
 				)
 			})
 		}
+
+		{
+			products.map((product)=>{
+				return(
+					<ProductCard key={product.productId} product={product}/>
+				)
+			})
+		}
 		
 	</div>
 	)
