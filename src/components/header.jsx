@@ -7,6 +7,7 @@ import { useState } from "react";
 export default function Header(){
     const [sideDrawerOpened, setSideDrawerOpened] = useState(false)
     const navigate = useNavigate()
+    const token = localStorage.getItem("token");
     return(
         <header className="w-full h-[80px] shadow-2xl flex justify-center relative ">
             <GiHamburgerMenu className="h-full text-3xl md:hidden absolute left-2" onClick={
@@ -26,8 +27,18 @@ export default function Header(){
 
             </div>
             <div className="w-[80px] hidden md:flex justify-center items-center">
-                <Link to="/cart" className="text-[20px] font-bold mx-2">
-                   <BsCart3 />
+                {
+                    token == null?
+                    <Link to="/login" className="text-[20px] mx-1">Login</Link>
+                    :
+                    <button className="w-[160px] hidden md:flex justify-center items-center" onClick={()=>{
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("user");
+                        window.location.href = "/"
+                    }}>Logout</button>
+                }
+                <Link to="/cart" className="text-[20px] font-bold mx-3">
+                <BsCart3 />
                 </Link>
             </div>
             {
