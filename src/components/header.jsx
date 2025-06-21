@@ -22,6 +22,7 @@ export default function Header(){
                 <Link to="/products" className=" text-[20px] font-bold mx-2">Products</Link>
                 <Link to="/about" className=" text-[20px] font-bold mx-2">About</Link>
                 <Link to="/contact" className=" text-[20px] font-bold mx-2">Contact</Link>
+                <Link to="/search" className=" text-[20px] font-bold mx-2">Search</Link>
 
             </div>
             <div className="w-[80px] hidden md:flex justify-center items-center">
@@ -48,6 +49,7 @@ export default function Header(){
                             <a href="/about" className="text-[20px] font-bold mx-2 my-4">About</a>
                             <a href="/contact" className="text-[20px] font-bold mx-2 my-4">Contact</a>
                             <a href="/cart" className="text-[20px] font-bold mx-2 my-4">
+                            
                                 <BsCart3 />
                             </a>
                         </div>
