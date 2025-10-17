@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 export default function AboutPage() {
   return (
-    <div className="w-full min-h-screen bg-white text-slate-800 overflow-hidden">
+    <div className="w-full min-h-screen bg-white text-slate-800 overflow-hidden pt-20">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-sky-50 to-rose-50 py-20 px-4">
         <div className="max-w-screen-xl mx-auto">

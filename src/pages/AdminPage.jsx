@@ -8,6 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Loading from "../components/loading";
 import AdminUserPage from "./admin/adminUserPage";
+import AdminReviewsPage from "./admin/AdminReviewsPage";
 
 export default function AdminPage() {
 	const location = useLocation();
@@ -76,7 +77,7 @@ export default function AdminPage() {
 							<Route path="/products" element={<AdminProductsPage />} />
 							<Route path="/users" element={<AdminUserPage />} />
 							<Route path="/orders" element={<AdminOrdersPage />} />
-							<Route path="/reviews" element={<h1>Reviews</h1>} />
+							<Route path="/reviews" element={<AdminReviewsPage/>} />
 							<Route path="/add-product" element={<AddProductPage />} />
 							<Route path="/edit-product" element={<EditProductPage />} />
 						</Routes>
